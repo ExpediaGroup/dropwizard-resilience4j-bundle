@@ -1,0 +1,10 @@
+target
+overlays
+.classpath
+.project
+.settings
+.checkstyle
+*.ipr
+*.iml
+*.iws
+.idea

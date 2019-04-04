@@ -1,0 +1,18 @@
+server:
+    type:                   simple
+    applicationContextPath: /
+    adminContextPath:       /private
+    connector:
+        type:    http
+        port:    0          # will cause jetty to bind to random open port
+
+resilience4j:
+    circuitBreakers:
+        - name: testBreaker1
+          failureRateThreshold: 10
+          ringBufferSizeInHalfOpenState: 5
+          ringBufferSizeInClosedState: 50
+          waitDurationInOpenState: 30s
+          enableAutomaticTransitionFromOpenToHalfOpen: false
+        - name: testBreaker2
+        - name: testBreaker3
