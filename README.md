@@ -1,5 +1,9 @@
-dropwizard-resilience4j
+dropwizard-resilience4j-bundle [![Build Status][build-icon]][build-link]
 ==============================
+                        
+[build-icon]: https://travis-ci.org/homeaway/dropwizard-resilience4j-bundle.svg?branch=master
+[build-link]: https://travis-ci.org/homeaway/dropwizard-resilience4j-bundle
+
 
 Lightweight integration of Resilience4J into Dropwizard configuration and metrics. Does not provide any other services - actually _using_
 all the Resilience4j stuff is up to you.
