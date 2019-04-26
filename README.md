@@ -17,7 +17,7 @@ User Guide
 In your POM...
 ```xml
 <dependency>
-    <groupId>com.homeaway.dropwizard.bundle</groupId>
+    <groupId>com.expediagroup.dropwizard.bundle</groupId>
     <artifactId>dropwizard-resilience4j-bundle</artifactId>
     <version>0.1.0</version> <!-- use latest -->
 </dependency>
