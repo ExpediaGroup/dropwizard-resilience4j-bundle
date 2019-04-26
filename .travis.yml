@@ -9,4 +9,15 @@ jdk:
 # See https://docs.travis-ci.com/user/job-lifecycle/#skipping-the-installation-phase
 install: true
 
-script: mvn clean install
+cache:
+  directories:
+  - $HOME/.m2
+
+before_install:
+- bash ./.travis/setup-deploy.sh
+
+deploy:
+  provider: script
+  # skip_cleanup is to keep the artifacts from the build phase
+  skip_cleanup: true
+  script: mvn -DskipTests -Psigned -B deploy
