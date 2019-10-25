@@ -9,10 +9,55 @@ server:
 resilience4j:
     circuitBreakers:
         - name: testBreaker1
-          failureRateThreshold: 10
-          ringBufferSizeInHalfOpenState: 5
-          ringBufferSizeInClosedState: 50
           waitDurationInOpenState: 30s
           enableAutomaticTransitionFromOpenToHalfOpen: false
+          failureRateThreshold: 10
+          minimumNumberOfCalls: 5
+          permittedNumberOfCallsInHalfOpenState: 2
+          slidingWindowSize: 4
+          slidingWindowType: TIME_BASED
+          slowCallDurationThreshold: 10ms
+          slowCallRateThreshold: 1.5
+          writableStackTraceEnabled: true
+          ignoreExceptions:
+            - java.lang.NullPointerException
+          recordExceptions:
+            - java.lang.IllegalArgumentException
         - name: testBreaker2
         - name: testBreaker3
+          slidingWindowType: COUNT_BASED
+          slidingWindowSize: 10
+          ignoreExceptions:
+          recordExceptions:
+
+    retryConfigurations:
+      - name: constantRetry
+        maxAttempts: 1
+        intervalFunction:
+          type: constant
+          initialInterval: 10ms
+        ignoreExceptions:
+          - java.lang.RuntimeException
+        retryExceptions:
+          - java.lang.IllegalArgumentException
+      - name: randomizedRetry
+        maxAttempts: 2
+        intervalFunction:
+          type: randomized
+          initialInterval: 10ms
+          randomizationFactor: 0.5
+        ignoreExceptions:
+        retryExceptions:
+      - name: exponentialBackoffRetry
+        maxAttempts: 3
+        intervalFunction:
+          type: exponentialBackoff
+          initialInterval: 10ms
+          multiplier: 3.5
+      - name: exponentialRandomizedBackoffRetry
+        maxAttempts: 4
+        intervalFunction:
+          type: exponentialRandomBackoff
+          initialInterval: 10ms
+          multiplier: 2.5
+          randomizationFactor: 0.5

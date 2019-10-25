@@ -19,11 +19,12 @@ package com.homeaway.dropwizard.bundle.resilience4j;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-import javax.annotation.Nonnull;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
+
 import com.homeaway.dropwizard.bundle.resilience4j.configuration.CircuitBreakerConfiguration;
 import com.homeaway.dropwizard.bundle.resilience4j.configuration.Resilience4jConfiguration;
+import com.homeaway.dropwizard.bundle.resilience4j.configuration.retry.RetryConfiguration;
 
 import io.dropwizard.ConfiguredBundle;
 import io.dropwizard.setup.Bootstrap;
@@ -32,7 +33,13 @@ import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import io.github.resilience4j.circuitbreaker.internal.InMemoryCircuitBreakerRegistry;
+import io.github.resilience4j.core.lang.NonNull;
 import io.github.resilience4j.metrics.CircuitBreakerMetrics;
+import io.github.resilience4j.metrics.RetryMetrics;
+import io.github.resilience4j.retry.Retry;
+import io.github.resilience4j.retry.RetryConfig;
+import io.github.resilience4j.retry.RetryRegistry;
+import io.github.resilience4j.retry.internal.InMemoryRetryRegistry;
 
 public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
 
@@ -40,14 +47,15 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
 
     private final BiConsumer<String, CircuitBreakerConfig.Builder> circuitBreakerConfigurator;
 
-    private static final BiConsumer<String, CircuitBreakerConfig.Builder> NOOP_CONFIGURATOR = (a, b) -> {
-    };
+    private final BiConsumer<String, RetryConfig.Builder> retryConfigurator;
 
     /**
      * Create a new bundle
      */
-    public Resilience4jBundle(@Nonnull Function<T, Resilience4jConfiguration> resilienceConfiguratorFunction) {
-        this(resilienceConfiguratorFunction, NOOP_CONFIGURATOR);
+    public Resilience4jBundle(@NonNull Function<T, Resilience4jConfiguration> resilienceConfiguratorFunction) {
+        this(resilienceConfiguratorFunction,
+             noOpConfigurator(),
+             noOpConfigurator());
     }
 
     /**
@@ -55,10 +63,12 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
      *
      * @param circuitBreakerConfigurator A function that will be passed the name and builder for each circuit breaker before it is created
      */
-    public Resilience4jBundle(@Nonnull Function<T, Resilience4jConfiguration> resilienceConfiguratorFunction,
-                              @Nonnull BiConsumer<String, CircuitBreakerConfig.Builder> circuitBreakerConfigurator) {
+    public Resilience4jBundle(@NonNull Function<T, Resilience4jConfiguration> resilienceConfiguratorFunction,
+                              @NonNull BiConsumer<String, CircuitBreakerConfig.Builder> circuitBreakerConfigurator,
+                              @NonNull BiConsumer<String, RetryConfig.Builder> retryConfigurator) {
         this.resiliencyConfiguratorFunction = resilienceConfiguratorFunction;
         this.circuitBreakerConfigurator = circuitBreakerConfigurator;
+        this.retryConfigurator = retryConfigurator;
     }
 
     @Override
@@ -100,5 +110,42 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
                 }
             });
         }
+
+        final List<RetryConfiguration> retryConfigs = config.getRetryConfigurations();
+        if (retryConfigs != null & !retryConfigs.isEmpty()) {
+            final InMemoryRetryRegistry retryRegistry = new InMemoryRetryRegistry();
+            for (final RetryConfiguration cfg : retryConfigs) {
+                final RetryConfig.Builder r4jConfigBuilder = cfg.toResilience4jConfigBuilder();
+                retryConfigurator.accept(cfg.getName(), r4jConfigBuilder);
+                retryRegistry.retry(cfg.getName(), r4jConfigBuilder.build());
+            }
+
+            config.setRetryRegistry(retryRegistry);
+
+            //Register retry metrics with Dropwizard metrics
+            environment.metrics().registerAll(RetryMetrics.ofRetryRegistry(retryRegistry));
+
+            //Register retryers with Jersey for injection, if anybody wants to use it
+            environment.jersey().register(new AbstractBinder() {
+
+                @Override
+                protected void configure() {
+                    //Bind the registry
+                    bind(retryRegistry).to(RetryRegistry.class);
+
+                    //Bind each of the retryers
+                    for (final Retry retryer : retryRegistry.getAllRetries()) {
+                        bind(retryer).to(Retry.class).named(retryer.getName());
+                    }
+                }
+            });
+        }
+    }
+
+    private static final BiConsumer<Object, Object> NOOP_CONFIGURATOR = (a, b) -> {
+    };
+
+    private static <T, U> BiConsumer<T, U> noOpConfigurator() {
+        return (BiConsumer<T, U>) NOOP_CONFIGURATOR;
     }
 }

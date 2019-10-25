@@ -16,6 +16,8 @@ limitations under the License.
 
 package com.homeaway.dropwizard.bundle.resilience4j.configuration;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.dropwizard.util.Duration;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 
@@ -27,6 +29,7 @@ public class CircuitBreakerConfiguration {
     /**
      * Name for this circuit breaker for use in the registry
      */
+    @JsonProperty
     private String name;
 
     /**
@@ -35,28 +38,8 @@ public class CircuitBreakerConfiguration {
      * <br>
      * See also {@link io.github.resilience4j.circuitbreaker.CircuitBreakerConfig.Builder#failureRateThreshold}.
      */
+    @JsonProperty
     private float failureRateThreshold = 50;
-
-    /**
-     * Configures the size of the ring buffer when the CircuitBreaker is half open. The CircuitBreaker stores the success/failure
-     * success / failure status of the latest calls in a ring buffer. For example, if {@code ringBufferSizeInClosedState} is 10, then
-     * at least 10 calls must be evaluated, before the failure rate can be calculated. If only 9 calls have been evaluated the
-     * CircuitBreaker will not trip back to closed or open even if all 9 calls have failed. The size must be greater than 10. Default
-     * size is 10.
-     * <br>
-     * See also {@link io.github.resilience4j.circuitbreaker.CircuitBreakerConfig.Builder#ringBufferSizeInHalfOpenState}.
-     */
-    private int ringBufferSizeInHalfOpenState = 10;
-
-    /**
-     * Configures the size of the ring buffer when the CircuitBreaker is closed. The CircuitBreaker stores the success/failure
-     * success / failure status of the latest calls in a ring buffer. For example, if {@code ringBufferSizeInClosedState} is 100,
-     * then at least 100 calls must be evaluated, before the failure rate can be calculated. If only 99 calls have been evaluated the
-     * CircuitBreaker will not trip open even if all 99 calls have failed. The size must be greater than 0. Default size is 100.
-     * <br>
-     * See also {@link io.github.resilience4j.circuitbreaker.CircuitBreakerConfig.Builder#ringBufferSizeInClosedState}.
-     */
-    private int ringBufferSizeInClosedState = 100;
 
     /**
      * Configures the wait duration which specifies how long the CircuitBreaker should stay open, before it switches to half open.
@@ -64,6 +47,7 @@ public class CircuitBreakerConfiguration {
      * <br>
      * See also {@link io.github.resilience4j.circuitbreaker.CircuitBreakerConfig.Builder#waitDurationInOpenState}.
      */
+    @JsonProperty
     private Duration waitDurationInOpenState = Duration.seconds(60);
 
     /**
@@ -71,20 +55,50 @@ public class CircuitBreakerConfiguration {
      * Default value is {c}true{/c}
      * See also {@link io.github.resilience4j.circuitbreaker.CircuitBreakerConfig.Builder#enableAutomaticTransitionFromOpenToHalfOpen}.
      */
+    @JsonProperty
     private Boolean enableAutomaticTransitionFromOpenToHalfOpen = true;
 
+    @JsonProperty
+    private int minimumNumberOfCalls = CircuitBreakerConfig.DEFAULT_MINIMUM_NUMBER_OF_CALLS;
+
+    @JsonProperty
+    private int permittedNumberOfCallsInHalfOpenState = CircuitBreakerConfig.DEFAULT_PERMITTED_CALLS_IN_HALF_OPEN_STATE;
+
+    @JsonProperty
+    private int slidingWindowSize = CircuitBreakerConfig.DEFAULT_SLIDING_WINDOW_SIZE;
+
+    @JsonProperty
+    private CircuitBreakerConfig.SlidingWindowType slidingWindowType = CircuitBreakerConfig.DEFAULT_SLIDING_WINDOW_TYPE;
+
+    @JsonProperty
+    private Duration slowCallDurationThreshold = Duration.seconds(CircuitBreakerConfig.DEFAULT_SLOW_CALL_DURATION_THRESHOLD);
+
+    @JsonProperty
+    private float slowCallRateThreshold = CircuitBreakerConfig.DEFAULT_SLOW_CALL_RATE_THRESHOLD;
+
+    @JsonProperty
+    private boolean writableStackTraceEnabled = CircuitBreakerConfig.DEFAULT_WRITABLE_STACK_TRACE_ENABLED;
+
+    @JsonProperty
+    private Class[] ignoreExceptions = new Class[0];
+
+    @JsonProperty
+    private Class[] recordExceptions = new Class[0];
+
     public CircuitBreakerConfig.Builder toResilience4jConfigBuilder() {
-        CircuitBreakerConfig.Builder builder = CircuitBreakerConfig.custom()
-                                          .waitDurationInOpenState(java.time.Duration.ofNanos(this.waitDurationInOpenState.toNanoseconds()))
-                                          .ringBufferSizeInClosedState(this.ringBufferSizeInClosedState)
-                                          .ringBufferSizeInHalfOpenState(this.ringBufferSizeInHalfOpenState)
-                                          .failureRateThreshold(this.failureRateThreshold);
-
-        if (enableAutomaticTransitionFromOpenToHalfOpen) {
-            builder.enableAutomaticTransitionFromOpenToHalfOpen();
-        }
-
-        return builder;
+        return CircuitBreakerConfig.custom()
+                                   .waitDurationInOpenState(java.time.Duration.ofNanos(this.waitDurationInOpenState.toNanoseconds()))
+                                   .automaticTransitionFromOpenToHalfOpenEnabled(enableAutomaticTransitionFromOpenToHalfOpen)
+                                   .failureRateThreshold(this.failureRateThreshold)
+                                   .minimumNumberOfCalls(minimumNumberOfCalls)
+                                   .permittedNumberOfCallsInHalfOpenState(permittedNumberOfCallsInHalfOpenState)
+                                   .slidingWindowSize(slidingWindowSize)
+                                   .slidingWindowType(slidingWindowType)
+                                   .slowCallDurationThreshold(java.time.Duration.ofNanos(slowCallDurationThreshold.toNanoseconds()))
+                                   .slowCallRateThreshold(slowCallRateThreshold)
+                                   .writableStackTraceEnabled(writableStackTraceEnabled)
+                                   .ignoreExceptions(ignoreExceptions)
+                                   .recordExceptions(recordExceptions);
     }
 
     public String getName() {
@@ -103,22 +117,6 @@ public class CircuitBreakerConfiguration {
         return failureRateThreshold;
     }
 
-    public void setRingBufferSizeInHalfOpenState(int ringBufferSizeInHalfOpenState) {
-        this.ringBufferSizeInHalfOpenState = ringBufferSizeInHalfOpenState;
-    }
-
-    public int getRingBufferSizeInHalfOpenState() {
-        return ringBufferSizeInHalfOpenState;
-    }
-
-    public int getRingBufferSizeInClosedState() {
-        return ringBufferSizeInClosedState;
-    }
-
-    public void setRingBufferSizeInClosedState(int ringBufferSizeInClosedState) {
-        this.ringBufferSizeInClosedState = ringBufferSizeInClosedState;
-    }
-
     public Duration getWaitDurationInOpenState() {
         return waitDurationInOpenState;
     }
@@ -133,5 +131,77 @@ public class CircuitBreakerConfiguration {
 
     public void setEnableAutomaticTransitionFromOpenToHalfOpen(Boolean enableAutomaticTransitionFromOpenToHalfOpen) {
         this.enableAutomaticTransitionFromOpenToHalfOpen = enableAutomaticTransitionFromOpenToHalfOpen;
+    }
+
+    public int getMinimumNumberOfCalls() {
+        return minimumNumberOfCalls;
+    }
+
+    public void setMinimumNumberOfCalls(int minimumNumberOfCalls) {
+        this.minimumNumberOfCalls = minimumNumberOfCalls;
+    }
+
+    public int getPermittedNumberOfCallsInHalfOpenState() {
+        return permittedNumberOfCallsInHalfOpenState;
+    }
+
+    public void setPermittedNumberOfCallsInHalfOpenState(int permittedNumberOfCallsInHalfOpenState) {
+        this.permittedNumberOfCallsInHalfOpenState = permittedNumberOfCallsInHalfOpenState;
+    }
+
+    public int getSlidingWindowSize() {
+        return slidingWindowSize;
+    }
+
+    public void setSlidingWindowSize(int slidingWindowSize) {
+        this.slidingWindowSize = slidingWindowSize;
+    }
+
+    public CircuitBreakerConfig.SlidingWindowType getSlidingWindowType() {
+        return slidingWindowType;
+    }
+
+    public void setSlidingWindowType(CircuitBreakerConfig.SlidingWindowType slidingWindowType) {
+        this.slidingWindowType = slidingWindowType;
+    }
+
+    public Duration getSlowCallDurationThreshold() {
+        return slowCallDurationThreshold;
+    }
+
+    public void setSlowCallDurationThreshold(Duration slowCallDurationThreshold) {
+        this.slowCallDurationThreshold = slowCallDurationThreshold;
+    }
+
+    public float getSlowCallRateThreshold() {
+        return slowCallRateThreshold;
+    }
+
+    public void setSlowCallRateThreshold(float slowCallRateThreshold) {
+        this.slowCallRateThreshold = slowCallRateThreshold;
+    }
+
+    public boolean isWritableStackTraceEnabled() {
+        return writableStackTraceEnabled;
+    }
+
+    public void setWritableStackTraceEnabled(boolean writableStackTraceEnabled) {
+        this.writableStackTraceEnabled = writableStackTraceEnabled;
+    }
+
+    public Class[] getIgnoreExceptions() {
+        return ignoreExceptions;
+    }
+
+    public void setIgnoreExceptions(Class[] ignoreExceptions) {
+        this.ignoreExceptions = ignoreExceptions;
+    }
+
+    public Class[] getRecordExceptions() {
+        return recordExceptions;
+    }
+
+    public void setRecordExceptions(Class[] recordExceptions) {
+        this.recordExceptions = recordExceptions;
     }
 }
