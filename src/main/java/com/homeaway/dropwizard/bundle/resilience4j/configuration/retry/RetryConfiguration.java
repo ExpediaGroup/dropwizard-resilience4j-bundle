@@ -21,13 +21,13 @@ public class RetryConfiguration {
      * Names of exceptions to ignore
      */
     @JsonProperty
-    private Class[] ignoreExceptions = null;
+    private Class<? extends Throwable>[] ignoreExceptions = null;
 
     /**
      * Names of exceptions to always retry
      */
     @JsonProperty
-    private Class[] retryExceptions = null;
+    private Class<? extends Throwable>[] retryExceptions = null;
 
     /**
      * Maximum number of retries
@@ -64,19 +64,19 @@ public class RetryConfiguration {
         this.name = name;
     }
 
-    public Class[] getIgnoreExceptions() {
+    public Class<? extends Throwable>[] getIgnoreExceptions() {
         return ignoreExceptions;
     }
 
-    public void setIgnoreExceptions(Class[] ignoreExceptions) {
+    public void setIgnoreExceptions(Class<? extends Throwable>[] ignoreExceptions) {
         this.ignoreExceptions = ignoreExceptions;
     }
 
-    public Class[] getRetryExceptions() {
+    public Class<? extends Throwable>[] getRetryExceptions() {
         return retryExceptions;
     }
 
-    public void setRetryExceptions(Class[] retryExceptions) {
+    public void setRetryExceptions(Class<? extends Throwable>[] retryExceptions) {
         this.retryExceptions = retryExceptions;
     }
 

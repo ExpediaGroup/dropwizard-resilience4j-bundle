@@ -80,10 +80,10 @@ public class CircuitBreakerConfiguration {
     private boolean writableStackTraceEnabled = CircuitBreakerConfig.DEFAULT_WRITABLE_STACK_TRACE_ENABLED;
 
     @JsonProperty
-    private Class[] ignoreExceptions = new Class[0];
+    private Class<? extends Throwable>[] ignoreExceptions = new Class[0];
 
     @JsonProperty
-    private Class[] recordExceptions = new Class[0];
+    private Class<? extends Throwable>[] recordExceptions = new Class[0];
 
     public CircuitBreakerConfig.Builder toResilience4jConfigBuilder() {
         return CircuitBreakerConfig.custom()
@@ -189,19 +189,19 @@ public class CircuitBreakerConfiguration {
         this.writableStackTraceEnabled = writableStackTraceEnabled;
     }
 
-    public Class[] getIgnoreExceptions() {
+    public Class<? extends Throwable>[] getIgnoreExceptions() {
         return ignoreExceptions;
     }
 
-    public void setIgnoreExceptions(Class[] ignoreExceptions) {
+    public void setIgnoreExceptions(Class<? extends Throwable>[] ignoreExceptions) {
         this.ignoreExceptions = ignoreExceptions;
     }
 
-    public Class[] getRecordExceptions() {
+    public Class<? extends Throwable>[] getRecordExceptions() {
         return recordExceptions;
     }
 
-    public void setRecordExceptions(Class[] recordExceptions) {
+    public void setRecordExceptions(Class<? extends Throwable>[] recordExceptions) {
         this.recordExceptions = recordExceptions;
     }
 }
