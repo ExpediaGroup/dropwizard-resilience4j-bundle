@@ -8,3 +8,4 @@ overlays
 *.iml
 *.iws
 .idea
+*.versionsBackup

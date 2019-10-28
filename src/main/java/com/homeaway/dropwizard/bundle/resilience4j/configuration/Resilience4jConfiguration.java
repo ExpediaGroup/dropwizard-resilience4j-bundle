@@ -21,7 +21,10 @@ import java.util.List;
 import javax.annotation.Nullable;
 import javax.validation.Valid;
 
+import com.homeaway.dropwizard.bundle.resilience4j.configuration.retry.RetryConfiguration;
+
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
+import io.github.resilience4j.retry.RetryRegistry;
 
 /**
  * Resilience4j configuration
@@ -35,7 +38,13 @@ public class Resilience4jConfiguration {
     @Valid
     private List<CircuitBreakerConfiguration> circuitBreakers;
 
+    @Nullable
+    @Valid
+    private List<RetryConfiguration> retryConfigurations;
+
     public CircuitBreakerRegistry circuitBreakerRegistry;
+
+    public RetryRegistry retryRegistry;
 
     @Nullable
     public List<CircuitBreakerConfiguration> getCircuitBreakers() {
@@ -52,5 +61,22 @@ public class Resilience4jConfiguration {
 
     public void setCircuitBreakerRegistry(CircuitBreakerRegistry circuitBreakerRegistry) {
         this.circuitBreakerRegistry = circuitBreakerRegistry;
+    }
+
+    @Nullable
+    public List<RetryConfiguration> getRetryConfigurations() {
+        return retryConfigurations;
+    }
+
+    public void setRetryConfigurations(@Nullable List<RetryConfiguration> retryConfigurations) {
+        this.retryConfigurations = retryConfigurations;
+    }
+
+    public RetryRegistry getRetryRegistry() {
+        return retryRegistry;
+    }
+
+    public void setRetryRegistry(RetryRegistry retryRegistry) {
+        this.retryRegistry = retryRegistry;
     }
 }
