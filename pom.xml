@@ -11,13 +11,30 @@
     <name>dropwizard-resilience4j-bundle</name>
 
     <description>Lightweight Resilience4j integration for Dropwizard</description>
+    <url>https://github.com/homeaway/dropwizard-resilience4j-bundle</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <scm>
-        <url>http://github.com/homeaway/dropwizard-resilience4j-bundle</url>
+        <url>https://github.com/homeaway/dropwizard-resilience4j-bundle</url>
         <connection>scm:git:ssh://git@github.com/homeaway/dropwizard-resilience4j-bundle.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/homeaway/dropwizard-resilience4j-bundle.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
+
+    <developers>
+        <developer>
+            <name>dropwizard-resilience4j-bundle committers</name>
+            <organization>Vrbo</organization>
+            <organizationUrl>https://www.vrbo.com</organizationUrl>
+        </developer>
+    </developers>
 
     <properties>
         <!--Java-->
