@@ -17,7 +17,17 @@ before_install:
 - bash ./.travis/setup-deploy.sh
 
 deploy:
-  provider: script
-  # skip_cleanup is to keep the artifacts from the build phase
-  skip_cleanup: true
-  script: mvn -DskipTests -Psigned -B deploy
+  - provider: script
+    # skip_cleanup is to keep the artifacts from the build phase
+    skip_cleanup: true
+    script: bash .travis/deploy-snapshot.sh
+    on:
+      repo: homeaway/dropwizard-resilience4j-bundle
+      branch: master
+      tags: false
+  - provider: script
+    script: bash .travis/deploy-release.sh
+    on:
+      repo: homeaway/dropwizard-resilience4j-bundle
+      branch: master
+      tags: true
