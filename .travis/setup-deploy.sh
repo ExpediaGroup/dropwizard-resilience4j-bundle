@@ -1,8 +1,14 @@
 #!/bin/bash
 
-#Pull request is a number or false
-if [ "$TRAVIS_BRANCH" != 'master' ] || [ "$TRAVIS_PULL_REQUEST" != 'false' ]; then
-    echo "Skipping env deployment setup for a non-release build"
+# Pull request is a number or false
+if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then
+    echo "Skipping env deployment setup for pull requests"
+    exit 0
+fi
+
+# For builds triggered by a tag, TRAVIS_BRANCH is the same as the name of the tag
+if [[ "${TRAVIS_BRANCH}" != "master" && "${TRAVIS_BRANCH}" != "${TRAVIS_TAG}" ]]; then
+    echo "Skipping env deployment setup for non-releases"
     exit 0
 fi
 

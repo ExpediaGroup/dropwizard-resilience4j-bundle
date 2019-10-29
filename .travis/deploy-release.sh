@@ -13,4 +13,4 @@ if [[ ! $ARTIFACT_VERSION =~ ^[0-9]+\.[0-9]+ ]]; then
 fi
 
 mvn org.codehaus.mojo:versions-maven-plugin:2.7:set -DnewVersion=${ARTIFACT_VERSION}
-mvn -DskipTests -Psigned -B deploy
+mvn -DskipTests -Psigned -B clean deploy
