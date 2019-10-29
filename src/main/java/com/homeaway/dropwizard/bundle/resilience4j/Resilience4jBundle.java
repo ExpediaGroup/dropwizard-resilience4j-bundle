@@ -51,6 +51,8 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
 
     /**
      * Create a new bundle
+     *
+     * @param resilienceConfiguratorFunction Function to extract the Resilience4j configuration from the dropwizard configuration
      */
     public Resilience4jBundle(@NonNull Function<T, Resilience4jConfiguration> resilienceConfiguratorFunction) {
         this(resilienceConfiguratorFunction,
@@ -61,7 +63,9 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
     /**
      * Create a new bundle, with a function for modifying CircuitBreaker configurations
      *
+     * @param resilienceConfiguratorFunction Function to extract the Resilience4j configuration from the dropwizard configuration
      * @param circuitBreakerConfigurator A function that will be passed the name and builder for each circuit breaker before it is created
+     * @param retryConfigurator A function that will be passed the name and builder for each retryer
      */
     public Resilience4jBundle(@NonNull Function<T, Resilience4jConfiguration> resilienceConfiguratorFunction,
                               @NonNull BiConsumer<String, CircuitBreakerConfig.Builder> circuitBreakerConfigurator,
