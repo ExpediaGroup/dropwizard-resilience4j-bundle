@@ -16,6 +16,9 @@ cache:
 before_install:
 - bash ./.travis/setup-deploy.sh
 
+# The deployment step will perform a maven deploy on commits or tags on the master branch to publish artifacts.
+# Builds NOT triggered by a git tag will publish the SNAPSHOT artifacts.
+# Builds triggered by a git tag will publish the artifacts with the given tag version.
 deploy:
   - provider: script
     # skip_cleanup is to keep the artifacts from the build phase
