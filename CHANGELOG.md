@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [Unreleased]
 ### Added
+
+### Changed
+- Fixed crash at startup when no `retryConfigurations` are specified in the config
+
+
+##[1.0.0] - 2019-10-27
+### Added
 - Added support for R4j `Retry`
 
 ### Changed
