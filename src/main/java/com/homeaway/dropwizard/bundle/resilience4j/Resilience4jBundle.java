@@ -116,7 +116,7 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
         }
 
         final List<RetryConfiguration> retryConfigs = config.getRetryConfigurations();
-        if (retryConfigs != null & !retryConfigs.isEmpty()) {
+        if (retryConfigs != null && !retryConfigs.isEmpty()) {
             final InMemoryRetryRegistry retryRegistry = new InMemoryRetryRegistry();
             for (final RetryConfiguration cfg : retryConfigs) {
                 final RetryConfig.Builder r4jConfigBuilder = cfg.toResilience4jConfigBuilder();

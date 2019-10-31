@@ -1,0 +1,23 @@
+resilience4j:
+    circuitBreakers:
+        - name: testBreaker1
+          waitDurationInOpenState: 30s
+          enableAutomaticTransitionFromOpenToHalfOpen: false
+          failureRateThreshold: 10
+          minimumNumberOfCalls: 5
+          permittedNumberOfCallsInHalfOpenState: 2
+          slidingWindowSize: 4
+          slidingWindowType: TIME_BASED
+          slowCallDurationThreshold: 10ms
+          slowCallRateThreshold: 1.5
+          writableStackTraceEnabled: true
+          ignoreExceptions:
+            - java.lang.NullPointerException
+          recordExceptions:
+            - java.lang.IllegalArgumentException
+        - name: testBreaker2
+        - name: testBreaker3
+          slidingWindowType: COUNT_BASED
+          slidingWindowSize: 10
+          ignoreExceptions:
+          recordExceptions:
