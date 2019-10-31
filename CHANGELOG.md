@@ -19,5 +19,5 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - Updated to R4j 1.1.0. This is a major version bump that has a lot of breaking changes that will be user-visible. See R4j documentation for details.
 
 ## [0.0.1] - 2019-03-11
-###Initial Version
+### Initial Version
 - Created with initial support for CircuitBreakers
