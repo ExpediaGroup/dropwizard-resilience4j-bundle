@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## [2.0.0] - TBD
+## [2.0.0] - 2019-01-06
 ### Changed
 - Renamed artifact groupId from `com.expediagroup.dropwizard.bundle` to `com.expediagroup`
 - Relocated classes from `com.homeaway.dropwizard.bundle.resilience4j` to `com.expediagroup.dropwizard.resilience4j`

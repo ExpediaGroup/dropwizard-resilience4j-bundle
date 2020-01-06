@@ -18,7 +18,7 @@ In your POM...
 <dependency>
     <groupId>com.expediagroup</groupId>
     <artifactId>dropwizard-resilience4j-bundle</artifactId>
-    <version>0.1.0</version> <!-- use latest -->
+    <version>2.0.0</version> <!-- use latest -->
 </dependency>
 ```
 
