@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-package com.homeaway.dropwizard.bundle.resilience4j;
+package com.expediagroup.dropwizard.resilience4j;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -22,9 +22,9 @@ import java.util.function.Function;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
-import com.homeaway.dropwizard.bundle.resilience4j.configuration.CircuitBreakerConfiguration;
-import com.homeaway.dropwizard.bundle.resilience4j.configuration.Resilience4jConfiguration;
-import com.homeaway.dropwizard.bundle.resilience4j.configuration.retry.RetryConfiguration;
+import com.expediagroup.dropwizard.resilience4j.configuration.CircuitBreakerConfiguration;
+import com.expediagroup.dropwizard.resilience4j.configuration.Resilience4jConfiguration;
+import com.expediagroup.dropwizard.resilience4j.configuration.retry.RetryConfiguration;
 
 import io.dropwizard.ConfiguredBundle;
 import io.dropwizard.setup.Bootstrap;

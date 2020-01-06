@@ -1,4 +1,4 @@
-package com.homeaway.dropwizard.bundle.resilience4j.configuration.retry;
+package com.expediagroup.dropwizard.resilience4j.configuration.retry;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;

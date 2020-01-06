@@ -16,7 +16,7 @@ User Guide
 In your POM...
 ```xml
 <dependency>
-    <groupId>com.expediagroup.dropwizard.bundle</groupId>
+    <groupId>com.expediagroup</groupId>
     <artifactId>dropwizard-resilience4j-bundle</artifactId>
     <version>0.1.0</version> <!-- use latest -->
 </dependency>
@@ -51,7 +51,7 @@ Add to your application's Config class:
 private Resilience4jConfiguration resilience4j;
 ```
 
-Configured R4J objects are automatically wired into Dropwizard Metrics, and also [into HK2 using the name from the YAML](src/main/java/com/homeaway/dropwizard/bundle/resilience4j/Resilience4jBundle.java#L93).
+Configured R4J objects are automatically wired into Dropwizard Metrics, and also [into HK2 using the name from the YAML](src/main/java/com/expediagroup/dropwizard/resilience4j/Resilience4jBundle.java#L93).
 You can also retrieve them from the configuration class...
 
 ```java

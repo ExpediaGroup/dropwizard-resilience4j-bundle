@@ -1,4 +1,4 @@
-package com.homeaway.dropwizard.bundle.resilience4j.configuration.retry;
+package com.expediagroup.dropwizard.resilience4j.configuration.retry;
 
 import javax.validation.constraints.NotNull;
 

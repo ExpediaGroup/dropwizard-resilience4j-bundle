@@ -1,4 +1,4 @@
-package com.homeaway.dropwizard.bundle.resilience4j;
+package com.expediagroup.dropwizard.resilience4j;
 
 import java.util.ArrayList;
 import java.util.List;
