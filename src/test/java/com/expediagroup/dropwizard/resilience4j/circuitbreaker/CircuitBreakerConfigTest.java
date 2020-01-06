@@ -1,4 +1,4 @@
-package com.homeaway.dropwizard.bundle.resilience4j.circuitbreaker;
+package com.expediagroup.dropwizard.resilience4j.circuitbreaker;
 
 import java.util.List;
 
@@ -6,11 +6,11 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.homeaway.dropwizard.bundle.resilience4j.ResourceTestUtil;
-import com.homeaway.dropwizard.bundle.resilience4j.TestApplication;
-import com.homeaway.dropwizard.bundle.resilience4j.TestConfiguration;
-import com.homeaway.dropwizard.bundle.resilience4j.configuration.CircuitBreakerConfiguration;
-import com.homeaway.dropwizard.bundle.resilience4j.configuration.Resilience4jConfiguration;
+import com.expediagroup.dropwizard.resilience4j.configuration.CircuitBreakerConfiguration;
+import com.expediagroup.dropwizard.resilience4j.configuration.Resilience4jConfiguration;
+import com.expediagroup.dropwizard.resilience4j.ResourceTestUtil;
+import com.expediagroup.dropwizard.resilience4j.TestApplication;
+import com.expediagroup.dropwizard.resilience4j.TestConfiguration;
 
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import io.dropwizard.util.Duration;

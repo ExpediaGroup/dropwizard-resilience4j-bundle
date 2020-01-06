@@ -4,12 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## [Unreleased]
-### Added
+## [2.0.0] - TBD
+### Changed
+- Renamed artifact groupId from `com.expediagroup.dropwizard.bundle` to `com.expediagroup`
+- Relocated classes from `com.homeaway.dropwizard.bundle.resilience4j` to `com.expediagroup.dropwizard.resilience4j`
 
+## [1.0.1] - 2019-10-31
 ### Changed
 - Fixed crash at startup when no `retryConfigurations` are specified in the config
-
 
 ## [1.0.0] - 2019-10-27
 ### Added

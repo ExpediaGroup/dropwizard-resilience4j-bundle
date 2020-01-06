@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-package com.homeaway.dropwizard.bundle.resilience4j.configuration;
+package com.expediagroup.dropwizard.resilience4j.configuration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

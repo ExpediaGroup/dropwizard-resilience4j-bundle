@@ -1,6 +1,6 @@
-package com.homeaway.dropwizard.bundle.resilience4j;
+package com.expediagroup.dropwizard.resilience4j;
 
-import com.homeaway.dropwizard.bundle.resilience4j.configuration.Resilience4jConfiguration;
+import com.expediagroup.dropwizard.resilience4j.configuration.Resilience4jConfiguration;
 
 import io.dropwizard.Configuration;
 

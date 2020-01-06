@@ -14,14 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-package com.homeaway.dropwizard.bundle.resilience4j.configuration;
+package com.expediagroup.dropwizard.resilience4j.configuration;
 
 import java.util.List;
 
 import javax.annotation.Nullable;
 import javax.validation.Valid;
 
-import com.homeaway.dropwizard.bundle.resilience4j.configuration.retry.RetryConfiguration;
+import com.expediagroup.dropwizard.resilience4j.configuration.retry.RetryConfiguration;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import io.github.resilience4j.retry.RetryRegistry;

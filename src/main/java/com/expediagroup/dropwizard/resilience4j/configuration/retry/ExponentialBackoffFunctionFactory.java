@@ -1,4 +1,4 @@
-package com.homeaway.dropwizard.bundle.resilience4j.configuration.retry;
+package com.expediagroup.dropwizard.resilience4j.configuration.retry;
 
 import javax.validation.constraints.NotNull;
 
@@ -8,22 +8,15 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.dropwizard.util.Duration;
 import io.github.resilience4j.retry.IntervalFunction;
 
-@JsonTypeName("exponentialRandomBackoff")
-public class ExponentialRandomBackoffFunctionFactory implements IntervalFunctionFactory {
+@JsonTypeName("exponentialBackoff")
+public class ExponentialBackoffFunctionFactory implements IntervalFunctionFactory {
 
     /**
-     * Amount to multiply by at each iteration. Must be greater than 1. Default value is 1.5.
+     * Amount to multiply by at each iteration. Must be greater than 1.  Default value is 1.5.
      */
     @JsonProperty
     @NotNull
     private double multiplier = IntervalFunction.DEFAULT_MULTIPLIER;
-
-    /**
-     * Randomization multiplier. Must be in range [0.0d, 1.0d). Default value is 0.5.
-     */
-    @JsonProperty
-    @NotNull
-    private double randomizationFactor = IntervalFunction.DEFAULT_RANDOMIZATION_FACTOR;
 
     /**
      * Initial interval. Minimum value is 10 milliseconds. Default is R4j default, currently 500ms.
@@ -34,7 +27,7 @@ public class ExponentialRandomBackoffFunctionFactory implements IntervalFunction
 
     @Override
     public IntervalFunction build() {
-        return IntervalFunction.ofExponentialRandomBackoff(initialInterval.toMilliseconds(), multiplier, randomizationFactor);
+        return IntervalFunction.ofExponentialBackoff(initialInterval.toMilliseconds(), multiplier);
     }
 
     public double getMultiplier() {
@@ -43,14 +36,6 @@ public class ExponentialRandomBackoffFunctionFactory implements IntervalFunction
 
     public void setMultiplier(double multiplier) {
         this.multiplier = multiplier;
-    }
-
-    public double getRandomizationFactor() {
-        return randomizationFactor;
-    }
-
-    public void setRandomizationFactor(double randomizationFactor) {
-        this.randomizationFactor = randomizationFactor;
     }
 
     public Duration getInitialInterval() {

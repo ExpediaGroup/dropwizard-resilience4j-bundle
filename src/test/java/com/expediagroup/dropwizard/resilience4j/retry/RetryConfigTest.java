@@ -1,17 +1,18 @@
-package com.homeaway.dropwizard.bundle.resilience4j.retry;
+package com.expediagroup.dropwizard.resilience4j.retry;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.homeaway.dropwizard.bundle.resilience4j.ResourceTestUtil;
-import com.homeaway.dropwizard.bundle.resilience4j.TestApplication;
-import com.homeaway.dropwizard.bundle.resilience4j.TestConfiguration;
-import com.homeaway.dropwizard.bundle.resilience4j.configuration.Resilience4jConfiguration;
-import com.homeaway.dropwizard.bundle.resilience4j.configuration.retry.ConstantIntervalFunctionFactory;
-import com.homeaway.dropwizard.bundle.resilience4j.configuration.retry.ExponentialBackoffFunctionFactory;
-import com.homeaway.dropwizard.bundle.resilience4j.configuration.retry.ExponentialRandomBackoffFunctionFactory;
-import com.homeaway.dropwizard.bundle.resilience4j.configuration.retry.RandomizedIntervalFunctionFactory;
-import com.homeaway.dropwizard.bundle.resilience4j.configuration.retry.RetryConfiguration;
+import com.expediagroup.dropwizard.resilience4j.configuration.Resilience4jConfiguration;
+import com.expediagroup.dropwizard.resilience4j.configuration.retry.ConstantIntervalFunctionFactory;
+import com.expediagroup.dropwizard.resilience4j.configuration.retry.RetryConfiguration;
+import com.expediagroup.dropwizard.resilience4j.ResourceTestUtil;
+import com.expediagroup.dropwizard.resilience4j.TestApplication;
+import com.expediagroup.dropwizard.resilience4j.TestConfiguration;
+import com.expediagroup.dropwizard.resilience4j.configuration.retry.ExponentialBackoffFunctionFactory;
+import com.expediagroup.dropwizard.resilience4j.configuration.retry.ExponentialRandomBackoffFunctionFactory;
+import com.expediagroup.dropwizard.resilience4j.configuration.retry.RandomizedIntervalFunctionFactory;
 
 import io.dropwizard.testing.junit.DropwizardAppRule;
 
@@ -28,7 +29,7 @@ public class RetryConfigTest {
         Resilience4jConfiguration r4jConfig = app.getConfiguration().getResilience4j();
 
         //Check that retry was configured correctly
-        assertThat(r4jConfig.getRetryConfigurations()).isNotNull();
+        Assertions.assertThat(r4jConfig.getRetryConfigurations()).isNotNull();
         assertThat(r4jConfig.getRetryConfigurations().size()).isEqualTo(4);
 
         RetryConfiguration retry1 = r4jConfig.getRetryConfigurations().get(0);
