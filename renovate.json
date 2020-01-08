@@ -1,0 +1,6 @@
+{
+  "extends": [
+    "config:base",
+    "github>homeaway/renovate-config-dropwizard"
+  ]
+}
