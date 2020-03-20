@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## [?.?.?] - 2020-03-20
+## [Unreleased]
 ### Changed
 - Updated to R4j 1.3.1. This is a minor version bump that has several changes that will be user-visible. See R4j documentation for details.
 
