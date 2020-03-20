@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [Unreleased]
+### Changed
+- Updated to R4j 1.3.1. This is a minor version bump that has several changes that will be user-visible. See R4j documentation for details.
+
 ## [2.0.0] - 2019-01-06
 ### Changed
 - Renamed artifact groupId from `com.expediagroup.dropwizard.bundle` to `com.expediagroup`
