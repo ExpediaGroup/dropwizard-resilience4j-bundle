@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import io.dropwizard.util.Duration;
-import io.github.resilience4j.retry.IntervalFunction;
+import io.github.resilience4j.core.IntervalFunction;
 
 @JsonTypeName("randomized")
 public class RandomizedIntervalFunctionFactory implements IntervalFunctionFactory {
