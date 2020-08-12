@@ -1,8 +1,9 @@
 package com.expediagroup.dropwizard.resilience4j.retry;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.expediagroup.dropwizard.resilience4j.configuration.Resilience4jConfiguration;
 import com.expediagroup.dropwizard.resilience4j.configuration.retry.ConstantIntervalFunctionFactory;
@@ -14,18 +15,21 @@ import com.expediagroup.dropwizard.resilience4j.configuration.retry.ExponentialB
 import com.expediagroup.dropwizard.resilience4j.configuration.retry.ExponentialRandomBackoffFunctionFactory;
 import com.expediagroup.dropwizard.resilience4j.configuration.retry.RandomizedIntervalFunctionFactory;
 
-import io.dropwizard.testing.junit.DropwizardAppRule;
+import io.dropwizard.testing.junit5.DropwizardAppExtension;
+import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class RetryConfigTest {
+@ExtendWith(DropwizardExtensionsSupport.class)
+@DisplayName("RetryConfig")
+class RetryConfigTest {
 
-    @Rule
-    public DropwizardAppRule<TestConfiguration> app =
-        new DropwizardAppRule<>(TestApplication.class, ResourceTestUtil.resourceAbsolutePath("/retry/config-retry.yaml"));
+    public DropwizardAppExtension<TestConfiguration> app =
+        new DropwizardAppExtension<>(TestApplication.class, ResourceTestUtil.resourceAbsolutePath("/retry/config-retry.yaml"));
 
     @Test
-    public void configWithJustRetry_runs() throws Exception {
+    @DisplayName("retry configuration parses successfully")
+    void configWithJustRetry_runs() {
         Resilience4jConfiguration r4jConfig = app.getConfiguration().getResilience4j();
 
         //Check that retry was configured correctly

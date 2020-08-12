@@ -3,8 +3,9 @@ package com.expediagroup.dropwizard.resilience4j.circuitbreaker;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.expediagroup.dropwizard.resilience4j.configuration.CircuitBreakerConfiguration;
 import com.expediagroup.dropwizard.resilience4j.configuration.Resilience4jConfiguration;
@@ -12,21 +13,24 @@ import com.expediagroup.dropwizard.resilience4j.ResourceTestUtil;
 import com.expediagroup.dropwizard.resilience4j.TestApplication;
 import com.expediagroup.dropwizard.resilience4j.TestConfiguration;
 
-import io.dropwizard.testing.junit.DropwizardAppRule;
+import io.dropwizard.testing.junit5.DropwizardAppExtension;
+import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import io.dropwizard.util.Duration;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CircuitBreakerConfigTest {
+@ExtendWith(DropwizardExtensionsSupport.class)
+@DisplayName("CircuitBreakerConfig")
+class CircuitBreakerConfigTest {
 
-    //Checking to make sure the app can actually start
-    @Rule
-    public DropwizardAppRule<TestConfiguration> app =
-        new DropwizardAppRule<>(TestApplication.class, ResourceTestUtil.resourceAbsolutePath("/circuitbreaker/config-cb.yaml"));
+    // Checking to make sure the app can actually start
+    public DropwizardAppExtension<TestConfiguration> app =
+        new DropwizardAppExtension<>(TestApplication.class, ResourceTestUtil.resourceAbsolutePath("/circuitbreaker/config-cb.yaml"));
 
     @Test
-    public void configWithJustCircuitBreaker_runs() throws Exception {
+    @DisplayName("circuit breaker configuration parses successfully")
+    void configWithJustCircuitBreaker_runs() {
         Resilience4jConfiguration r4jConfig = app.getConfiguration().getResilience4j();
         assertThat(r4jConfig).isNotNull();
         assertThat(r4jConfig.getCircuitBreakers()).isNotNull();

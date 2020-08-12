@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [3.0.0] - TBD
+### Changed
+- Upgrade to Dropwizard 2.x.
+- Switched to Java 11
+- Switched from JUnit 4 to JUnit 5
+- Renamed artifact groupId from `com.expediagroup` to `com.expediagroup.dropwizard`
+
 ## [2.0.1] - 2020-03-20
 ### Changed
 - Updated to R4j 1.3.1. This is a minor version bump that has several changes that will be user-visible. See R4j documentation for details.
