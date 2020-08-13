@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## [3.0.0] - TBD
+## [3.0.0] - 2020-08-13
 ### Changed
 - Upgrade to Dropwizard 2.x.
 - Switched to Java 11

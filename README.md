@@ -8,7 +8,7 @@ dropwizard-resilience4j-bundle [![Build Status][build-icon]][build-link]
 Lightweight integration of Resilience4J into Dropwizard configuration and metrics. Does not provide any other services - actually _using_
 all the Resilience4j stuff is up to you. The [R4J documentation](https://resilience4j.readme.io/docs) is pretty good.
 
-Currently this only supports Circuit Breakers and Retries, but supporting [more R4j features is welcome](http://resilience4j.github.io/resilience4j/#_usage_guide).
+Currently, this only supports Circuit Breakers and Retries, but supporting [more R4j features is welcome](http://resilience4j.github.io/resilience4j/#_usage_guide).
 
 User Guide
 ==============================
@@ -16,9 +16,9 @@ User Guide
 In your POM...
 ```xml
 <dependency>
-    <groupId>com.expediagroup</groupId>
+    <groupId>com.expediagroup.dropwizard</groupId>
     <artifactId>dropwizard-resilience4j-bundle</artifactId>
-    <version>2.0.0</version> <!-- use latest -->
+    <version>3.0.0</version> <!-- use latest -->
 </dependency>
 ```
 
@@ -33,20 +33,20 @@ resilience4j:
         ## All parameters are optional except `name`, defaults are documented in CircuitBreakerConfiguration.java
         ##- name: anotherCircuitBreaker
     retryConfigurations:
-      - name: exponentialRandomizedBackoffRetry
-              maxAttempts: 4
-              intervalFunction:
-                type: exponentialRandomBackoff
-                initialInterval: 10ms
-                multiplier: 2.5
-                randomizationFactor: 0.5
-      ## Add as many as you want
-      ## most parameters are optional, but `intervalFunction` is required. Several are available, see `IntervalFunctionFactory` for full list, 
-      ## but currently: constant, randomized, exponentialBackoff, exponentialRandomBackoff
+        - name: exponentialRandomizedBackoffRetry
+          maxAttempts: 4
+          intervalFunction:
+            type: exponentialRandomBackoff
+            initialInterval: 10ms
+            multiplier: 2.5
+            randomizationFactor: 0.5
+        ## Add as many as you want
+        ## most parameters are optional, but `intervalFunction` is required. Several are available, see `IntervalFunctionFactory` for full list, 
+        ## but currently: constant, randomized, exponentialBackoff, exponentialRandomBackoff
 ```
 
 Add to your application's Config class:
-```yaml
+```java
 @NotNull
 private Resilience4jConfiguration resilience4j;
 ```
