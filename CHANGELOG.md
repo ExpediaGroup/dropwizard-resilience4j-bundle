@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - Switched to Java 11
 - Switched from JUnit 4 to JUnit 5
 - Renamed artifact groupId from `com.expediagroup` to `com.expediagroup.dropwizard`
+- Update to R4j `1.5.0`
+- Replace the use of deprecated `io.github.resilience4j.retry.IntervalFunction` with `io.github.resilience4j.core.IntervalFunction`
 
 ## [2.0.1] - 2020-03-20
 ### Changed
