@@ -1,0 +1,6 @@
+resilience4j:
+    timeLimiterConfigurations:
+      - name: defaultTimeLimiter
+      - name: customTimeLimiter
+        timeoutDuration: 5s
+        cancelRunningFuture: false

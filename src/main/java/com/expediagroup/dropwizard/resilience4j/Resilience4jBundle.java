@@ -24,6 +24,7 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 import com.expediagroup.dropwizard.resilience4j.configuration.CircuitBreakerConfiguration;
 import com.expediagroup.dropwizard.resilience4j.configuration.Resilience4jConfiguration;
+import com.expediagroup.dropwizard.resilience4j.configuration.TimeLimiterConfiguration;
 import com.expediagroup.dropwizard.resilience4j.configuration.retry.RetryConfiguration;
 
 import io.dropwizard.ConfiguredBundle;
@@ -36,10 +37,15 @@ import io.github.resilience4j.circuitbreaker.internal.InMemoryCircuitBreakerRegi
 import io.github.resilience4j.core.lang.NonNull;
 import io.github.resilience4j.metrics.CircuitBreakerMetrics;
 import io.github.resilience4j.metrics.RetryMetrics;
+import io.github.resilience4j.metrics.TimeLimiterMetrics;
 import io.github.resilience4j.retry.Retry;
 import io.github.resilience4j.retry.RetryConfig;
 import io.github.resilience4j.retry.RetryRegistry;
 import io.github.resilience4j.retry.internal.InMemoryRetryRegistry;
+import io.github.resilience4j.timelimiter.TimeLimiter;
+import io.github.resilience4j.timelimiter.TimeLimiterConfig;
+import io.github.resilience4j.timelimiter.TimeLimiterRegistry;
+import io.github.resilience4j.timelimiter.internal.InMemoryTimeLimiterRegistry;
 
 public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
 
@@ -49,6 +55,8 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
 
     private final BiConsumer<String, RetryConfig.Builder> retryConfigurator;
 
+    private final BiConsumer<String, TimeLimiterConfig.Builder> timeLimiterConfigurator;
+
     /**
      * Create a new bundle
      *
@@ -56,6 +64,7 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
      */
     public Resilience4jBundle(@NonNull Function<T, Resilience4jConfiguration> resilienceConfiguratorFunction) {
         this(resilienceConfiguratorFunction,
+             noOpConfigurator(),
              noOpConfigurator(),
              noOpConfigurator());
     }
@@ -66,13 +75,17 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
      * @param resilienceConfiguratorFunction Function to extract the Resilience4j configuration from the dropwizard configuration
      * @param circuitBreakerConfigurator A function that will be passed the name and builder for each circuit breaker before it is created
      * @param retryConfigurator A function that will be passed the name and builder for each retryer
+     * @param timeLimiterConfigurator A function that will be passed the name and builder for each time limiter
      */
     public Resilience4jBundle(@NonNull Function<T, Resilience4jConfiguration> resilienceConfiguratorFunction,
                               @NonNull BiConsumer<String, CircuitBreakerConfig.Builder> circuitBreakerConfigurator,
-                              @NonNull BiConsumer<String, RetryConfig.Builder> retryConfigurator) {
+                              @NonNull BiConsumer<String, RetryConfig.Builder> retryConfigurator,
+                              @NonNull BiConsumer<String, TimeLimiterConfig.Builder> timeLimiterConfigurator
+        ) {
         this.resiliencyConfiguratorFunction = resilienceConfiguratorFunction;
         this.circuitBreakerConfigurator = circuitBreakerConfigurator;
         this.retryConfigurator = retryConfigurator;
+        this.timeLimiterConfigurator = timeLimiterConfigurator;
     }
 
     @Override
@@ -83,6 +96,12 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
     public void run(T dwConfig, Environment environment) {
         Resilience4jConfiguration config = resiliencyConfiguratorFunction.apply(dwConfig);
 
+        configureCircuitBreakers(config, environment);
+        configureRetryers(config, environment);
+        configureTimeLimiters(config, environment);
+    }
+
+    private void configureCircuitBreakers(Resilience4jConfiguration config, Environment environment) {
         List<CircuitBreakerConfiguration> breakerConfigs = config.getCircuitBreakers();
         if (breakerConfigs != null && !breakerConfigs.isEmpty()) {
             InMemoryCircuitBreakerRegistry breakerRegistry = new InMemoryCircuitBreakerRegistry();
@@ -114,7 +133,9 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
                 }
             });
         }
+    }
 
+    private void configureRetryers(Resilience4jConfiguration config, Environment environment) {
         final List<RetryConfiguration> retryConfigs = config.getRetryConfigurations();
         if (retryConfigs != null && !retryConfigs.isEmpty()) {
             final InMemoryRetryRegistry retryRegistry = new InMemoryRetryRegistry();
@@ -140,6 +161,38 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
                     //Bind each of the retryers
                     for (final Retry retryer : retryRegistry.getAllRetries()) {
                         bind(retryer).to(Retry.class).named(retryer.getName());
+                    }
+                }
+            });
+        }
+    }
+
+    private void configureTimeLimiters(Resilience4jConfiguration config, Environment environment) {
+        final List<TimeLimiterConfiguration> timeLimiterConfigs = config.getTimeLimiterConfigurations();
+        if (timeLimiterConfigs != null && !timeLimiterConfigs.isEmpty()) {
+            final InMemoryTimeLimiterRegistry timeLimiterRegistry = new InMemoryTimeLimiterRegistry();
+            for (final TimeLimiterConfiguration cfg : timeLimiterConfigs) {
+                final TimeLimiterConfig.Builder r4jConfigBuilder = cfg.toResilience4jConfigBuilder();
+                timeLimiterConfigurator.accept(cfg.getName(), r4jConfigBuilder);
+                timeLimiterRegistry.timeLimiter(cfg.getName(), r4jConfigBuilder.build());
+            }
+
+            config.setTimeLimiterRegistry(timeLimiterRegistry);
+
+            // Register time limiter metrics with Dropwizard metrics
+            environment.metrics().registerAll(TimeLimiterMetrics.ofTimeLimiterRegistry(timeLimiterRegistry));
+
+            // Register time limiters with Jersey for injection, if anybody wants to use it
+            environment.jersey().register(new AbstractBinder() {
+
+                @Override
+                protected void configure() {
+                    // Bind the registry
+                    bind(timeLimiterRegistry).to(TimeLimiterRegistry.class);
+
+                    // Bind each of the time limiters
+                    for (final TimeLimiter timeLimiter : timeLimiterRegistry.getAllTimeLimiters()) {
+                        bind(timeLimiter).to(TimeLimiter.class).named(timeLimiter.getName());
                     }
                 }
             });
