@@ -55,8 +55,6 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
 
     private final BiConsumer<String, RetryConfig.Builder> retryConfigurator;
 
-    private final BiConsumer<String, TimeLimiterConfig.Builder> timeLimiterConfigurator;
-
     /**
      * Create a new bundle
      *
@@ -64,7 +62,6 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
      */
     public Resilience4jBundle(@NonNull Function<T, Resilience4jConfiguration> resilienceConfiguratorFunction) {
         this(resilienceConfiguratorFunction,
-             noOpConfigurator(),
              noOpConfigurator(),
              noOpConfigurator());
     }
@@ -75,17 +72,13 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
      * @param resilienceConfiguratorFunction Function to extract the Resilience4j configuration from the dropwizard configuration
      * @param circuitBreakerConfigurator A function that will be passed the name and builder for each circuit breaker before it is created
      * @param retryConfigurator A function that will be passed the name and builder for each retryer
-     * @param timeLimiterConfigurator A function that will be passed the name and builder for each time limiter
      */
     public Resilience4jBundle(@NonNull Function<T, Resilience4jConfiguration> resilienceConfiguratorFunction,
                               @NonNull BiConsumer<String, CircuitBreakerConfig.Builder> circuitBreakerConfigurator,
-                              @NonNull BiConsumer<String, RetryConfig.Builder> retryConfigurator,
-                              @NonNull BiConsumer<String, TimeLimiterConfig.Builder> timeLimiterConfigurator
-        ) {
+                              @NonNull BiConsumer<String, RetryConfig.Builder> retryConfigurator) {
         this.resiliencyConfiguratorFunction = resilienceConfiguratorFunction;
         this.circuitBreakerConfigurator = circuitBreakerConfigurator;
         this.retryConfigurator = retryConfigurator;
-        this.timeLimiterConfigurator = timeLimiterConfigurator;
     }
 
     @Override
@@ -173,7 +166,6 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
             final InMemoryTimeLimiterRegistry timeLimiterRegistry = new InMemoryTimeLimiterRegistry();
             for (final TimeLimiterConfiguration cfg : timeLimiterConfigs) {
                 final TimeLimiterConfig.Builder r4jConfigBuilder = cfg.toResilience4jConfigBuilder();
-                timeLimiterConfigurator.accept(cfg.getName(), r4jConfigBuilder);
                 timeLimiterRegistry.timeLimiter(cfg.getName(), r4jConfigBuilder.build());
             }
 
