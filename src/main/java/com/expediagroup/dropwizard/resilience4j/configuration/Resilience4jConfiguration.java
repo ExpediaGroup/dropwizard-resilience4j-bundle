@@ -25,6 +25,7 @@ import com.expediagroup.dropwizard.resilience4j.configuration.retry.RetryConfigu
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import io.github.resilience4j.retry.RetryRegistry;
+import io.github.resilience4j.timelimiter.TimeLimiterRegistry;
 
 /**
  * Resilience4j configuration
@@ -42,9 +43,15 @@ public class Resilience4jConfiguration {
     @Valid
     private List<RetryConfiguration> retryConfigurations;
 
+    @Nullable
+    @Valid
+    private List<TimeLimiterConfiguration> timeLimiterConfigurations;
+
     public CircuitBreakerRegistry circuitBreakerRegistry;
 
     public RetryRegistry retryRegistry;
+
+    public TimeLimiterRegistry timeLimiterRegistry;
 
     @Nullable
     public List<CircuitBreakerConfiguration> getCircuitBreakers() {
@@ -79,4 +86,22 @@ public class Resilience4jConfiguration {
     public void setRetryRegistry(RetryRegistry retryRegistry) {
         this.retryRegistry = retryRegistry;
     }
+
+    @Nullable
+    public List<TimeLimiterConfiguration> getTimeLimiterConfigurations() {
+        return timeLimiterConfigurations;
+    }
+
+    public void setTimeLimiterConfigurations(@Nullable List<TimeLimiterConfiguration> timeLimiterConfigurations) {
+        this.timeLimiterConfigurations = timeLimiterConfigurations;
+    }
+
+    public TimeLimiterRegistry getTimeLimiterRegistry() {
+        return timeLimiterRegistry;
+    }
+
+    public void setTimeLimiterRegistry(TimeLimiterRegistry timeLimiterRegistry) {
+        this.timeLimiterRegistry = timeLimiterRegistry;
+    }
+
 }

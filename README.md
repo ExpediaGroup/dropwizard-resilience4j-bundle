@@ -51,7 +51,7 @@ Add to your application's Config class:
 private Resilience4jConfiguration resilience4j;
 ```
 
-Configured R4J objects are automatically wired into Dropwizard Metrics, and also [into HK2 using the name from the YAML](src/main/java/com/expediagroup/dropwizard/resilience4j/Resilience4jBundle.java#L93).
+Configured R4J objects are automatically wired into Dropwizard Metrics, and also into HK2 using the name from the YAML.
 You can also retrieve them from the configuration class...
 
 ```java
