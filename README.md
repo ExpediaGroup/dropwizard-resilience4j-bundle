@@ -1,9 +1,7 @@
-dropwizard-resilience4j-bundle [![Build Status][build-icon]][build-link]
+dropwizard-resilience4j-bundle
 ==============================
-                        
-[build-icon]: https://travis-ci.org/homeaway/dropwizard-resilience4j-bundle.svg?branch=master
-[build-link]: https://travis-ci.org/homeaway/dropwizard-resilience4j-bundle
 
+[![Release](https://github.com/ExpediaGroup/dropwizard-resilience4j-bundle/actions/workflows/release.yml/badge.svg)](https://github.com/ExpediaGroup/dropwizard-resilience4j-bundle/actions/workflows/release.yml)
 
 Lightweight integration of Resilience4J into Dropwizard configuration and metrics. Does not provide any other services - actually _using_
 all the Resilience4j stuff is up to you. The [R4J documentation](https://resilience4j.readme.io/docs) is pretty good.
