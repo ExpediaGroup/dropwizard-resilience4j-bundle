@@ -1,10 +1,8 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+## This CHANGELOG file is no longer updated. Instead, GitHub Releases are used.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/).
-
-## [3.1.0] - TBD
+## [3.1.0] - 2020-08-27
 ### Added
 - Added support for R4j `TimeLimiter`
 

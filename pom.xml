@@ -57,28 +57,27 @@
         <coverage.branch>0.80</coverage.branch>
 
         <!-- Plugins -->
-        <compiler.pluginVersion>3.8.1</compiler.pluginVersion>
-        <coverage.jacoco.pluginVersion>0.8.5</coverage.jacoco.pluginVersion>
-        <enforcer.pluginVersion>3.0.0-M3</enforcer.pluginVersion>
+        <compiler.pluginVersion>3.9.0</compiler.pluginVersion>
+        <coverage.jacoco.pluginVersion>0.8.7</coverage.jacoco.pluginVersion>
+        <enforcer.pluginVersion>3.0.0</enforcer.pluginVersion>
+        <javadoc.pluginVersion>3.3.2</javadoc.pluginVersion>
         <preparationGoals>clean install</preparationGoals>
-        <release.pluginVersion>2.5.3</release.pluginVersion>
+        <release.pluginVersion>3.0.0-M5</release.pluginVersion>
         <source.pluginVersion>3.2.1</source.pluginVersion>
-        <surefire.pluginVersion>2.22.2</surefire.pluginVersion>
+        <surefire.pluginVersion>3.0.0-M5</surefire.pluginVersion>
 
         <!-- OSSRH -->
-        <nexusStaging.pluginVersion>1.6.8</nexusStaging.pluginVersion>
+        <nexusStaging.pluginVersion>1.6.12</nexusStaging.pluginVersion>
 
-        <assertj.version>3.16.1</assertj.version>
-        <dropwizard.version>2.0.12</dropwizard.version>
+        <assertj.version>3.21.0</assertj.version>
+        <dropwizard.version>2.0.28</dropwizard.version>
         <hk2-api.version>2.6.1</hk2-api.version>
-        <jackson.version>2.10.3</jackson.version>
-        <junit5.version>5.6.2</junit5.version>
-        <metrics4.version>4.1.2</metrics4.version>
-        <rs-api.version>2.1.1</rs-api.version>
-        <resilience4j.version>1.5.0</resilience4j.version>
-        <slf4j.version>1.7.25</slf4j.version>
+        <jackson.version>2.10.5.20201202</jackson.version>
+        <junit5.version>5.8.2</junit5.version>
+        <metrics4.version>4.1.29</metrics4.version>
+        <resilience4j.version>1.7.1</resilience4j.version>
+        <slf4j.version>1.7.32</slf4j.version>
         <validation-api.version>2.0.2</validation-api.version>
-        <vavr.version>0.10.3</vavr.version>
 
     </properties>
 
@@ -125,11 +124,6 @@
                 <groupId>io.github.resilience4j</groupId>
                 <artifactId>resilience4j-timelimiter</artifactId>
                 <version>${resilience4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.vavr</groupId>
-                <artifactId>vavr</artifactId>
-                <version>${vavr.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.validation</groupId>
@@ -205,10 +199,6 @@
             <artifactId>resilience4j-timelimiter</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.vavr</groupId>
-            <artifactId>vavr</artifactId>
-        </dependency>
-        <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
         </dependency>
@@ -263,7 +253,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>${javadoc.pluginVersion}</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
