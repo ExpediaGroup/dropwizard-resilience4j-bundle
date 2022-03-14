@@ -11,7 +11,7 @@
     <name>dropwizard-resilience4j-bundle</name>
 
     <description>Lightweight Resilience4j integration for Dropwizard</description>
-    <url>https://github.com/homeaway/dropwizard-resilience4j-bundle</url>
+    <url>https://github.com/ExpediaGroup/dropwizard-resilience4j-bundle</url>
 
     <licenses>
         <license>
@@ -22,17 +22,18 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/homeaway/dropwizard-resilience4j-bundle</url>
-        <connection>scm:git:ssh://git@github.com/homeaway/dropwizard-resilience4j-bundle.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/homeaway/dropwizard-resilience4j-bundle.git</developerConnection>
+        <url>https://github.com/ExpediaGroup/dropwizard-resilience4j-bundle</url>
+        <connection>scm:git:ssh://git@github.com/ExpediaGroup/dropwizard-resilience4j-bundle.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/ExpediaGroup/dropwizard-resilience4j-bundle.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
     <developers>
         <developer>
-            <name>dropwizard-resilience4j-bundle committers</name>
-            <organization>Vrbo</organization>
-            <organizationUrl>https://www.vrbo.com</organizationUrl>
+            <name>Expedia Group Committers</name>
+            <email>oss@expediagroup.com</email>
+            <organization>Expedia Group</organization>
+            <organizationUrl>https://www.expediagroup.com/</organizationUrl>
         </developer>
         <developer>
             <name>Brian Reischl</name>
@@ -340,11 +341,7 @@
 
     <profiles>
         <profile>
-            <!-- We create a profile here for two things: -->
-            <!-- 1. centrally specify the deploy to ossrh -->
-            <!-- 2. Sign all relevant artifacts (via configured GPG keys) -->
-            <!-- TODO: Automate Release Process -->
-            <id>signed</id>
+            <id>release</id>
             <build>
                 <plugins>
                     <plugin>
@@ -358,7 +355,6 @@
                             <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         </configuration>
                     </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -370,6 +366,12 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

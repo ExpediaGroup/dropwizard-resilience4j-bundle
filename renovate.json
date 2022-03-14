@@ -1,6 +1,6 @@
 {
   "extends": [
     "config:base",
-    "github>homeaway/renovate-config-dropwizard"
+    "github>ExpediaGroup/renovate-config-dropwizard"
   ]
 }
