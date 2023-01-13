@@ -75,7 +75,7 @@
         <jackson.version>2.10.5.20201202</jackson.version>
         <junit5.version>5.8.2</junit5.version>
         <metrics4.version>4.1.29</metrics4.version>
-        <resilience4j.version>1.7.1</resilience4j.version>
+        <resilience4j.version>1.7.0</resilience4j.version>
         <slf4j.version>1.7.32</slf4j.version>
         <validation-api.version>2.0.2</validation-api.version>
 
@@ -104,27 +104,14 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>io.github.resilience4j</groupId>
+                <artifactId>resilience4j-bom</artifactId>
+                <version>${resilience4j.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
-            <dependency>
-                <groupId>io.github.resilience4j</groupId>
-                <artifactId>resilience4j-circuitbreaker</artifactId>
-                <version>${resilience4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.resilience4j</groupId>
-                <artifactId>resilience4j-metrics</artifactId>
-                <version>${resilience4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.resilience4j</groupId>
-                <artifactId>resilience4j-retry</artifactId>
-                <version>${resilience4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.resilience4j</groupId>
-                <artifactId>resilience4j-timelimiter</artifactId>
-                <version>${resilience4j.version}</version>
-            </dependency>
             <dependency>
                 <groupId>jakarta.validation</groupId>
                 <artifactId>jakarta.validation-api</artifactId>
