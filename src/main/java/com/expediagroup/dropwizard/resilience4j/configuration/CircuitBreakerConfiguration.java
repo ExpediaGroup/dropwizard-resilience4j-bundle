@@ -23,7 +23,9 @@ import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 
 /**
  * A configuration for CircuitBreaker.
+ * @deprecated See <a href="https://github.com/ExpediaGroup/dropwizard-resilience4j-bundle/blob/master/README.md">README.md</a>
  */
+@Deprecated
 public class CircuitBreakerConfiguration {
 
     /**

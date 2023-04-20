@@ -23,7 +23,9 @@ import io.github.resilience4j.timelimiter.TimeLimiterConfig;
 
 /**
  * A configuration for TimeLimiter.
+ * @deprecated See <a href="https://github.com/ExpediaGroup/dropwizard-resilience4j-bundle/blob/master/README.md">README.md</a>
  */
+@Deprecated
 public class TimeLimiterConfiguration {
 
     /**

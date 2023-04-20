@@ -47,6 +47,10 @@ import io.github.resilience4j.timelimiter.TimeLimiterConfig;
 import io.github.resilience4j.timelimiter.TimeLimiterRegistry;
 import io.github.resilience4j.timelimiter.internal.InMemoryTimeLimiterRegistry;
 
+/**
+ * @deprecated See <a href="https://github.com/ExpediaGroup/dropwizard-resilience4j-bundle/blob/master/README.md">README.md</a>
+ */
+@Deprecated
 public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
 
     private final Function<T, Resilience4jConfiguration> resiliencyConfiguratorFunction;
@@ -57,9 +61,11 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
 
     /**
      * Create a new bundle
+     * @deprecated See <a href="https://github.com/ExpediaGroup/dropwizard-resilience4j-bundle/blob/master/README.md">README.md</a>
      *
      * @param resilienceConfiguratorFunction Function to extract the Resilience4j configuration from the dropwizard configuration
      */
+    @Deprecated
     public Resilience4jBundle(@NonNull Function<T, Resilience4jConfiguration> resilienceConfiguratorFunction) {
         this(resilienceConfiguratorFunction,
              noOpConfigurator(),
@@ -68,11 +74,13 @@ public class Resilience4jBundle<T> implements ConfiguredBundle<T> {
 
     /**
      * Create a new bundle, with a function for modifying CircuitBreaker configurations
+     * @deprecated See <a href="https://github.com/ExpediaGroup/dropwizard-resilience4j-bundle/blob/master/README.md">README.md</a>
      *
      * @param resilienceConfiguratorFunction Function to extract the Resilience4j configuration from the dropwizard configuration
      * @param circuitBreakerConfigurator A function that will be passed the name and builder for each circuit breaker before it is created
      * @param retryConfigurator A function that will be passed the name and builder for each retryer
      */
+    @Deprecated
     public Resilience4jBundle(@NonNull Function<T, Resilience4jConfiguration> resilienceConfiguratorFunction,
                               @NonNull BiConsumer<String, CircuitBreakerConfig.Builder> circuitBreakerConfigurator,
                               @NonNull BiConsumer<String, RetryConfig.Builder> retryConfigurator) {

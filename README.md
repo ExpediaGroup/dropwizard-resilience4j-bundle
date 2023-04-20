@@ -1,7 +1,10 @@
-dropwizard-resilience4j-bundle
+dropwizard-resilience4j-bundle (DEPRECATED)
 ==============================
 
 [![Release](https://github.com/ExpediaGroup/dropwizard-resilience4j-bundle/actions/workflows/release.yml/badge.svg)](https://github.com/ExpediaGroup/dropwizard-resilience4j-bundle/actions/workflows/release.yml)
+
+**DEPRECATED: We no longer maintain dropwizard-resilience4j-bundle. If you have questions or concerns, please open an
+issue or fork this repository.**
 
 Lightweight integration of Resilience4J into Dropwizard configuration and metrics. Does not provide any other services - actually _using_
 all the Resilience4j stuff is up to you. The [R4J documentation](https://resilience4j.readme.io/docs) is pretty good.
