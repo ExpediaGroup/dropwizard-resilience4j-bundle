@@ -58,7 +58,7 @@
 
         <!-- Plugins -->
         <compiler.pluginVersion>3.9.0</compiler.pluginVersion>
-        <coverage.jacoco.pluginVersion>0.8.7</coverage.jacoco.pluginVersion>
+        <coverage.jacoco.pluginVersion>0.8.14</coverage.jacoco.pluginVersion>
         <enforcer.pluginVersion>3.0.0</enforcer.pluginVersion>
         <javadoc.pluginVersion>3.3.2</javadoc.pluginVersion>
         <preparationGoals>clean install</preparationGoals>
